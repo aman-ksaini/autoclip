@@ -1,0 +1,1 @@
+# one video URL (or local file path) per line — lines starting with # are ignored

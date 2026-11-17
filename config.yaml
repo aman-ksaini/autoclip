@@ -1,0 +1,97 @@
+# autoclip configuration — every key is optional (defaults live in autoclip/config.py)
+
+workdir: work                # one sub-folder per video is created here
+
+download:
+  # 1080p max keeps files small; use "bv*+ba/b" for best available
+  format: "bv*[height<=1080]+ba/b[height<=1080]"
+
+transcribe:
+  engine: auto               # auto = YouTube captions -> mlx-whisper (Apple GPU) -> faster-whisper | youtube | mlx | faster-whisper
+  model: small               # tiny | base | small | medium | large-v3  (bigger = better + slower)
+  language: hi               # null = auto-detect
+  task: transcribe           # transcribe = original language, translate = English captions
+  device: auto               # auto | cpu | cuda
+  compute_type: int8      # default | int8 | float16
+
+pick:
+  provider: claude-code      # claude-code (your Claude plan, no key) | anthropic | gemini | openai
+  cli_model: sonnet          # for claude-code: sonnet | opus
+  model: claude-sonnet-5-5   # e.g. gemini model name or llama model for Groq/Ollama
+  base_url: null             # only for provider=openai, e.g. https://api.groq.com/openai/v1 or http://localhost:11434/v1
+  video_type: ""             # comedy | podcast | interview | gameplay | educational | vlog | general  ("" = let the AI decide; or --type)
+  context: ""                # anything that helps, e.g. "Samay Raina's roast show, finale episode" (or --context)
+  plan: true                 # AI studies the video first and writes plan.json (focus, 2-3 approaches, length, framing)
+  count: null                # null = keep EVERY clip that scores >= min_score; a number = exactly that many
+  min_score: 70              # quality bar (critic score 1-100 + bonuses)
+  min_clips: 3
+  max_clips: 15
+  min_seconds: null          # null = use the plan's length for this type of video
+  max_seconds: null
+  max_strategies: 3          # how many different approaches to try
+  audience: "Hindi/Hinglish-speaking audience on YouTube Shorts and Instagram Reels"
+  avoid: "explicit sexual jokes, slurs, abuse, anything likely to be age-restricted"
+  instructions: ""           # e.g. "prefer roast moments and emotional stories" (or use --instructions)
+  refine: true               # second AI pass: score hook/standalone/payoff + tighten the cut
+  boundary_review: true      # third AI pass: fix start/end (no mid-sentence, no next-bit tails, keep the laugh) + teaser + keywords
+  use_heatmap: true          # use YouTube "Most replayed" data when the video has it
+  use_audio: true            # detect laughter/applause spikes in the audio
+
+render:
+  width: 1080
+  height: 1920
+  reframe: auto              # auto (from plan) | speaker = follow whoever is talking | face | center | fit = full frame + blur
+  multi_speaker: auto        # 2+ people far apart: auto = cut to the speaker, but keep everyone during a bit/back-and-forth
+                             #   switch = always cut to the speaker | wide | split | fit = always show the group
+  group_style: auto          # how a group is shown: auto (from plan) | wide (everyone, blurred bars) | split (2 people stacked) | fit
+  min_shot_seconds: 1.2      # never hold a framing shorter than this (avoids flicker)
+  analysis_fps: 5            # frames/sec analysed for faces + mouth movement
+  crf: 20
+  preset: veryfast
+  captions: true
+  caption_font: "Noto Sans Devanagari"   # must support your script (Devanagari for Hindi)
+  caption_size: 80
+  caption_uppercase: true
+  words_per_line: 3
+  caption_margin_v: 520      # distance of captions from the bottom (px)
+  highlight_color: "&H0000FFFF&"         # ASS colour (&HBBGGRR&) — yellow
+  hook: true                 # burn the hook text at the top for the first seconds
+  headline: always           # intro = hook box for the first seconds | always = headline bar for the whole clip | off
+  teaser: true               # cold open: flash the strongest 2-4s line first, then play the clip (AI decides per clip)
+  punch_in: 1.15             # zoom in on punchlines / reactions (1.0 = off)
+  jumpcut_gap: auto          # remove silences longer than N seconds (auto = from plan: comedy 1.5, podcast 0.7; 0 = off)
+  keyword_color: "&H0000FF7F&"   # colour for the AI-chosen keywords in captions (green)
+  progress_bar: false        # thin progress bar at the bottom
+  hook_seconds: 3
+  hook_size: 72
+  fontsdir: fonts            # put extra .ttf files here (optional)
+  # your take: the personal line written by `autoclip package`, burned into the video
+  take_when: end             # end = last few seconds | start | always | off
+  take_seconds: 4
+  take_size: 42
+  take_margin_v: 380         # distance from the bottom (px) — sits under the captions, clear of faces and the Shorts buttons
+  take_label: ""             # optional small yellow label above it, e.g. "MY TAKE"
+
+# who is posting — the AI writes the headline, your take, title and description in this voice
+channel:
+  name: "Light Moments"      # your channel name
+  voice: "witty, warm, reacts like a friend sharing a moment; short punchy lines"
+  language: "Hinglish in Roman script"   # language of the title, description and take
+  signoff: ""                # optional last line of every description, e.g. "Follow for daily laughs 😂"
+  question: true             # end each description with a question for viewers (helps comments)
+
+package:
+  enabled: true              # write headline + your take + your own title/description for every clip
+
+youtube:
+  client_secrets: client_secret.json     # OAuth "Desktop app" client from Google Cloud
+  token: token.json                      # created on first `autoclip auth`
+  privacy: private           # private | unlisted | public (unaudited API projects are forced to private)
+  category_id: "24"          # 24 = Entertainment, 23 = Comedy, 22 = People & Blogs
+  made_for_kids: false
+  add_shorts_tag: true
+  credit: "🎥 Original: {source_channel}"   # last line of the description; {source_channel}, {source_title}, {source_url}; "" = off
+  schedule:
+    enabled: false
+    start: "2026-11-17T19:00:00+05:30"   # first publish time (ISO 8601 with offset)
+    every_hours: 24                      # gap between clips
