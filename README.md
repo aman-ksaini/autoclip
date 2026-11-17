@@ -1,5 +1,9 @@
 # autoclip 🎬
 
+> **Personal project.** autoclip is used only by its author to upload to his own YouTube channel (Light Moments).
+> It is not a public service and has no other users. Each Short adds the author's own headline and commentary and
+> credits the original creator. See [PRIVACY.md](PRIVACY.md) and the diagrams in [docs/](docs/).
+
 **Long video → AI-picked 30s vertical clips with captions → YouTube Shorts.**
 A free, self-hosted OpusClip-style pipeline.
 
