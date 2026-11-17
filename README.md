@@ -4,6 +4,8 @@
 > It is not a public service and has no other users. Each Short adds the author's own headline and commentary and
 > credits the original creator. See [PRIVACY.md](PRIVACY.md) and the diagrams in [docs/](docs/).
 
+**🔒 [Privacy Policy](PRIVACY.md) · 📄 [Terms of Service](TERMS.md) · ▶️ Uses YouTube API Services — [YouTube Terms of Service](https://www.youtube.com/t/terms) · [Google Privacy Policy](https://policies.google.com/privacy)**
+
 **Long video → AI-picked 30s vertical clips with captions → YouTube Shorts.**
 A free, self-hosted OpusClip-style pipeline.
 

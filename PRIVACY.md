@@ -19,6 +19,19 @@ YouTube Data API.
 - autoclip uses YouTube API Services, so the YouTube Terms of Service (https://www.youtube.com/t/terms)
   and the Google Privacy Policy (https://policies.google.com/privacy) also apply.
 
+## YouTube API Services
+- autoclip uses YouTube API Services (YouTube Data API v3, `videos.insert`).
+- By using autoclip you agree to the YouTube Terms of Service: https://www.youtube.com/t/terms
+- Google Privacy Policy: https://policies.google.com/privacy
+
+## Data retention and deletion
+- The only data autoclip keeps is the OAuth token in `token.json` on the owner's computer.
+  It is kept until the owner deletes the file or revokes access, and is never sent anywhere except Google.
+- To delete it: delete `token.json`, and revoke access at https://myaccount.google.com/permissions
+  (Google's security settings page). After revoking, autoclip can no longer upload anything.
+- autoclip stores no API data (no video data, statistics or user information) from YouTube.
+- Videos already uploaded live on the owner's YouTube channel and can be deleted at any time in YouTube Studio.
+
 ## Revoking access
 - Access can be removed at any time at https://myaccount.google.com/permissions
 
